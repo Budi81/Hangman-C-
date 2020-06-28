@@ -78,6 +78,7 @@ namespace Hangman
             };
 
             int guessingTries = wordToGuess.Length * 2;
+            int violations = 0;
 
             bool gameOver = false;
 
@@ -103,15 +104,30 @@ namespace Hangman
                 Console.Write("Your next quess is: ");
 
                 currentGuessChar = Console.ReadLine().ToUpper();
-                guessedChars += currentGuessChar + ", ";              
+                guessedChars += currentGuessChar[0] + ", ";
 
-                if (wordToGuess.Contains(currentGuessChar))
+                if (currentGuessChar.Length > 1)
+                {
+                    if (violations >= 1)
+                    {
+                        guessingTries--;
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nYou should input only one character!");
+                    Console.WriteLine("You will lose 2 tries for each following violetion of this rule!");
+                    Thread.Sleep(3000);
+                    Console.ResetColor();
+
+                    violations++;
+                }
+
+                if (wordToGuess.Contains(currentGuessChar[0]))
                 {
                     for (int i = 0; i < wordToGuess.Length; i++)
                     {
-                        if (wordToGuess[i] == Convert.ToChar(currentGuessChar))
+                        if (wordToGuess[i] == currentGuessChar[0])
                         {
-                            maskWordToGuess[i] = Convert.ToChar(currentGuessChar);
+                            maskWordToGuess[i] = currentGuessChar[0];
                         }
                     }
                 }
