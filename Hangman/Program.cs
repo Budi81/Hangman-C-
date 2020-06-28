@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 
 namespace Hangman
@@ -102,6 +103,15 @@ namespace Hangman
                 Console.Write("Your next quess is: ");
 
                 currentGuessChar = Console.ReadLine().ToUpper();
+
+                if (guessedChars == "")
+                {
+                    guessedChars = currentGuessChar;
+                }
+                else
+                {
+                    guessedChars = guessedChars + $", {currentGuessChar}";
+                }                
 
                 if (wordToGuess.Contains(currentGuessChar))
                 {
