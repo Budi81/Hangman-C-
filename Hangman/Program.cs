@@ -103,15 +103,7 @@ namespace Hangman
                 Console.Write("Your next quess is: ");
 
                 currentGuessChar = Console.ReadLine().ToUpper();
-
-                if (guessedChars == "")
-                {
-                    guessedChars = currentGuessChar;
-                }
-                else
-                {
-                    guessedChars = guessedChars + $", {currentGuessChar}";
-                }                
+                guessedChars += currentGuessChar + ", ";              
 
                 if (wordToGuess.Contains(currentGuessChar))
                 {
