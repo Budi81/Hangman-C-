@@ -1,19 +1,20 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-
-namespace Hangman
+﻿namespace Hangman
 {
+    using System;
+    using System.Linq;
+    using System.Threading;
+    
     class Program
     {
         static void Main()
         {
             string wordToGuess = "Guess".ToUpper();
             char[] maskWordToGuess = new string('*', wordToGuess.Length).ToCharArray();
-            string guessedChars = "";
-            string currentGuessChar = "";
+            string guessedChars = string.Empty;
+            string currentGuessChar = string.Empty;
 
-            string[] messages = {
+            string[] messages = 
+                {
                 @" ____  ____       _       ____  _____   ______  ____    ____       _       ____  _____ 
 |_   ||   _|     / \     |_   \|_   _|.' ___  ||_   \  /   _|     / \     |_   \|_   _|
   | |__| |      / _ \      |   \ | | / .'   \_|  |   \/   |      / _ \      |   \ | |  
@@ -103,54 +104,55 @@ namespace Hangman
 
                 Console.Write("Your next quess is: ");
 
-                currentGuessChar = Console.ReadLine().ToUpper();
-                guessedChars += currentGuessChar[0] + ", ";
-
-                if (currentGuessChar.Length > 1)
+                while (currentGuessChar != null)
                 {
-                    if (violations >= 1)
-                    {
-                        guessingTries--;
-                    }
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nYou should input only one character!");
-                    Console.WriteLine("You will lose 2 tries for each following violetion of this rule!");
-                    Thread.Sleep(3000);
-                    Console.ResetColor();
+                    currentGuessChar = Console.ReadLine().ToUpper();
+                    guessedChars += currentGuessChar[0] + ", ";
 
-                    violations++;
-                }
-
-                if (wordToGuess.Contains(currentGuessChar[0]))
-                {
-                    for (int i = 0; i < wordToGuess.Length; i++)
+                    if (currentGuessChar.Length > 1)
                     {
-                        if (wordToGuess[i] == currentGuessChar[0])
+                        if (violations >= 1)
                         {
-                            maskWordToGuess[i] = currentGuessChar[0];
+                            guessingTries--;
+                        }
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nYou should input only one character!");
+                        Console.WriteLine("You will lose 2 tries for each following violetion of this rule!");
+                        Thread.Sleep(3000);
+                        Console.ResetColor();
+
+                        violations++;
+                    }
+
+                    if (wordToGuess.Contains(currentGuessChar[0]))
+                    {
+                        for (int i = 0; i < wordToGuess.Length; i++)
+                        {
+                            if (wordToGuess[i] == currentGuessChar[0])
+                            {
+                                maskWordToGuess[i] = currentGuessChar[0];
+                            }
                         }
                     }
-                }
 
-                guessingTries--;
+                    guessingTries--;
 
-                Console.Clear();
+                    Console.Clear();
 
-                if (guessingTries == 0)
-                {
-                    gameOver = true;
-                    Console.WriteLine(messages[1]);
-                }
-                else if (!new string(maskWordToGuess).Contains("*"))
-                {
-                    gameOver = true;
-                    Console.WriteLine(messages[2]);
-                    Console.WriteLine(messages[3]);
+                    if (guessingTries == 0)
+                    {
+                        gameOver = true;
+                        Console.WriteLine(messages[1]);
+                    }
+                    else if (!new string(maskWordToGuess).Contains("*"))
+                    {
+                        gameOver = true;
+                        Console.WriteLine(messages[2]);
+                        Console.WriteLine(messages[3]);
+                    }
                 }
             }
         }
-
-
-
     }
 }
